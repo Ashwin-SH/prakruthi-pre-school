@@ -21,6 +21,17 @@ export async function POST(req: NextRequest) {
 
     const enquiry = await Enquiry.create(body);
 
+    // Send data to Google Sheet
+    try {
+      await fetch(process.env.GOOGLE_SHEET_URL!, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ childName, childAge, parentName, phone, email, program, message }),
+      });
+    } catch (sheetError) {
+      console.error("Google Sheet update failed:", sheetError);
+    }
+
     // Send email notification
     try {
       await resend.emails.send({

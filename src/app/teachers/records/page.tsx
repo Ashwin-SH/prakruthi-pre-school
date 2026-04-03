@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaArrowLeft, FaPlus, FaChild, FaPhone, FaSearch } from "react-icons/fa";
+import { FaArrowLeft, FaPlus, FaChild, FaPhone, FaSearch, FaFileExcel } from "react-icons/fa";
 
 interface Student {
   _id: string;
@@ -56,12 +56,20 @@ export default function RecordsPage() {
               <p className="text-sm text-gray-500">{students.length} total records</p>
             </div>
           </div>
-          <Link
-            href="/teachers"
-            className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary-dark transition-colors flex items-center gap-2"
-          >
-            <FaPlus /> Add New
-          </Link>
+          <div className="flex items-center gap-2">
+            <a
+              href="/api/student/export"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors flex items-center gap-2"
+            >
+              <FaFileExcel /> Download Excel
+            </a>
+            <Link
+              href="/teachers"
+              className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary-dark transition-colors flex items-center gap-2"
+            >
+              <FaPlus /> Add New
+            </Link>
+          </div>
         </div>
       </div>
 
