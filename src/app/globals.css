@@ -18,12 +18,43 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: #ffffff;
   color: #1a1a2e;
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+/* Mobile touch-friendly inputs */
+input, select, textarea, button {
+  font-size: 16px !important; /* Prevents iOS zoom on focus */
+  touch-action: manipulation;
+}
+
+/* Better tap targets for mobile */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Smooth scrolling for iOS */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Safe area padding for notched phones */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 @keyframes float {

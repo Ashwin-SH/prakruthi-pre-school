@@ -11,6 +11,7 @@ const navLinks = [
   { href: "#programs", label: "Programs" },
   { href: "#admission", label: "Admission" },
   { href: "#contact", label: "Contact" },
+  { href: "/teachers", label: "Teachers" },
 ];
 
 export default function Navbar() {

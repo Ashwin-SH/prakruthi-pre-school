@@ -1,0 +1,17 @@
+{
+  "name": "Prakruthi Pre School",
+  "short_name": "Prakruthi",
+  "description": "Nurturing young minds with love, creativity, and nature-inspired learning",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#FF6B35",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
