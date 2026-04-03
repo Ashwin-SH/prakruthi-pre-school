@@ -1,3 +1,15 @@
+"use client";
+
+import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Typography,
+  Container,
+  Chip,
+  Card,
+  CardContent,
+  Button,
+} from "@mui/material";
 import {
   FaWhatsapp,
   FaPhone,
@@ -6,114 +18,230 @@ import {
   FaClock,
 } from "react-icons/fa";
 
+const SectionRoot = styled(Box)({
+  padding: "100px 0",
+  background: "linear-gradient(135deg, #FFF8F0 0%, #FFF0E0 100%)",
+});
+
+const ContactCard = styled(Card)({
+  border: "1px solid #f3f4f6",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    boxShadow: "0 8px 25px rgba(0,0,0,0.08)",
+    transform: "translateY(-2px)",
+  },
+});
+
+const IconBox = styled(Box)<{ bgcolor: string; iconcolor: string }>(
+  ({ bgcolor, iconcolor }) => ({
+    width: 52,
+    height: 52,
+    borderRadius: 14,
+    background: bgcolor,
+    color: iconcolor,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "1.3rem",
+    flexShrink: 0,
+  })
+);
+
+const VisitCard = styled(Box)({
+  background: "linear-gradient(135deg, #FF6B35, #EC4899)",
+  borderRadius: 24,
+  padding: 48,
+  color: "#fff",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100%",
+  minHeight: 400,
+});
+
+const ScheduleButton = styled(Button)({
+  background: "#fff",
+  color: "#FF6B35",
+  fontWeight: 700,
+  padding: "14px 32px",
+  borderRadius: 50,
+  fontSize: "1.05rem",
+  boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+  "&:hover": {
+    background: "#f9fafb",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+    transform: "translateY(-2px)",
+  },
+  transition: "all 0.3s",
+});
+
+const contactItems = [
+  {
+    icon: <FaWhatsapp />,
+    bgcolor: "#f0fdf4",
+    iconcolor: "#22c55e",
+    title: "WhatsApp",
+    subtitle: "Quick replies, usually within minutes",
+    link: "https://wa.me/916361587391",
+    linkText: "+91 63615 87391",
+  },
+  {
+    icon: <FaPhone />,
+    bgcolor: "#fff7ed",
+    iconcolor: "#FF6B35",
+    title: "Call Us",
+    subtitle: "Mon - Sat, 9 AM to 5 PM",
+    link: "tel:+916361587391",
+    linkText: "+91 63615 87391",
+  },
+  {
+    icon: <FaEnvelope />,
+    bgcolor: "#f0fdfa",
+    iconcolor: "#4ECDC4",
+    title: "Email",
+    subtitle: "We reply within 24 hours",
+    linkText: "info@prakruthipreschool.com",
+  },
+  {
+    icon: <FaClock />,
+    bgcolor: "#fdf2f8",
+    iconcolor: "#EC4899",
+    title: "School Hours",
+    subtitle: "Monday - Friday: 9:00 AM - 1:00 PM",
+    extra: "Saturday: 9:00 AM - 12:00 PM",
+  },
+];
+
 export default function ContactSection() {
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-warm to-orange-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionRoot id="contact">
+      <Container maxWidth="lg">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-            Get In Touch
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-            We&apos;d Love to <span className="text-primary">Hear From You</span>
-          </h2>
-          <p className="text-gray-600 text-lg">
+        <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: 8 }}>
+          <Chip
+            label="Get In Touch"
+            sx={{
+              bgcolor: "rgba(255,107,53,0.1)",
+              color: "primary.main",
+              fontWeight: 600,
+              mb: 2,
+            }}
+          />
+          <Typography variant="h2" sx={{ fontSize: { xs: "2rem", sm: "2.8rem" }, mb: 2 }}>
+            We&apos;d Love to{" "}
+            <Box component="span" sx={{ color: "primary.main" }}>
+              Hear From You
+            </Box>
+          </Typography>
+          <Typography sx={{ color: "text.secondary", fontSize: "1.1rem" }}>
             Have questions about admissions or want to visit our school? Reach
             out to us!
-          </p>
-        </div>
+          </Typography>
+        </Box>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-md flex items-start gap-4">
-              <div className="bg-green-100 text-green-600 p-3 rounded-xl">
-                <FaWhatsapp className="text-2xl" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">WhatsApp</h3>
-                <p className="text-gray-500 mb-2">
-                  Quick replies, usually within minutes
-                </p>
-                <a
-                  href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Prakruthi%20Pre%20School"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-600 font-semibold hover:underline"
-                >
-                  +91 63615 87391
-                </a>
-              </div>
-            </div>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+            gap: 4,
+          }}
+        >
+          {/* Contact Cards */}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+            {contactItems.map((item) => (
+              <ContactCard key={item.title} elevation={0}>
+                <CardContent sx={{ display: "flex", alignItems: "flex-start", gap: 2, p: 2.5 }}>
+                  <IconBox bgcolor={item.bgcolor} iconcolor={item.iconcolor}>
+                    {item.icon}
+                  </IconBox>
+                  <Box>
+                    <Typography variant="h6" sx={{ fontSize: "1.1rem", mb: 0.3 }}>
+                      {item.title}
+                    </Typography>
+                    <Typography sx={{ color: "text.secondary", fontSize: "0.9rem", mb: 0.5 }}>
+                      {item.subtitle}
+                    </Typography>
+                    {item.link ? (
+                      <Typography
+                        {...(item.link ? {
+                          component: "a" as const,
+                          href: item.link,
+                          target: item.link.startsWith("http") ? "_blank" : undefined,
+                          rel: item.link.startsWith("http") ? "noopener noreferrer" : undefined,
+                        } : {})}
+                        sx={{
+                          color: item.iconcolor,
+                          fontWeight: 600,
+                          textDecoration: "none",
+                          "&:hover": { textDecoration: "underline" },
+                        }}
+                      >
+                        {item.linkText}
+                      </Typography>
+                    ) : item.linkText ? (
+                      <Typography sx={{ color: item.iconcolor, fontWeight: 600 }}>
+                        {item.linkText}
+                      </Typography>
+                    ) : null}
+                    {item.extra && (
+                      <Typography sx={{ color: "text.secondary", fontSize: "0.9rem" }}>
+                        {item.extra}
+                      </Typography>
+                    )}
+                  </Box>
+                </CardContent>
+              </ContactCard>
+            ))}
+          </Box>
 
-            <div className="bg-white rounded-2xl p-6 shadow-md flex items-start gap-4">
-              <div className="bg-primary/10 text-primary p-3 rounded-xl">
-                <FaPhone className="text-2xl" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">Call Us</h3>
-                <p className="text-gray-500 mb-2">Mon - Sat, 9 AM to 5 PM</p>
-                <a
-                  href="tel:+916361587391"
-                  className="text-primary font-semibold hover:underline"
-                >
-                  +91 63615 87391
-                </a>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 shadow-md flex items-start gap-4">
-              <div className="bg-secondary/10 text-secondary p-3 rounded-xl">
-                <FaEnvelope className="text-2xl" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">Email</h3>
-                <p className="text-gray-500 mb-2">We reply within 24 hours</p>
-                <span className="text-secondary font-semibold">
-                  info@prakruthipreschool.com
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 shadow-md flex items-start gap-4">
-              <div className="bg-pink/10 text-pink p-3 rounded-xl">
-                <FaClock className="text-2xl" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">
-                  School Hours
-                </h3>
-                <p className="text-gray-500">Monday - Friday: 9:00 AM - 1:00 PM</p>
-                <p className="text-gray-500">Saturday: 9:00 AM - 12:00 PM</p>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA card */}
-          <div className="flex flex-col items-center justify-center bg-gradient-to-br from-primary to-pink rounded-3xl p-10 text-white text-center shadow-xl">
-            <div className="bg-white/20 p-4 rounded-full mb-6">
-              <FaMapMarkerAlt className="text-4xl" />
-            </div>
-            <h3 className="text-3xl font-bold mb-4">Visit Our Campus</h3>
-            <p className="text-white/80 text-lg mb-2">
-              Prakruthi Pre School
-            </p>
-            <p className="text-white/70 mb-8 max-w-sm">
-              Bangalore, Karnataka, India
-            </p>
-            <a
-              href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20schedule%20a%20campus%20visit%20at%20Prakruthi%20Pre%20School"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+          {/* Visit Card */}
+          <VisitCard>
+            <Box
+              sx={{
+                bgcolor: "rgba(255,255,255,0.2)",
+                p: 2.5,
+                borderRadius: "50%",
+                mb: 3,
+              }}
             >
-              <FaWhatsapp className="text-green-500 text-xl" />
-              Schedule a Visit
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+              <FaMapMarkerAlt style={{ fontSize: "2.5rem" }} />
+            </Box>
+            <Typography variant="h3" sx={{ color: "#fff", mb: 2 }}>
+              Visit Our Campus
+            </Typography>
+            <Typography sx={{ color: "rgba(255,255,255,0.85)", fontSize: "1.1rem", mb: 1 }}>
+              Prakruthi Pre School
+            </Typography>
+            <Typography sx={{ color: "rgba(255,255,255,0.7)", mb: 4, maxWidth: 350 }}>
+              Malmaddi, Dharwad, Karnataka 580007
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=PRAKRUTHI+PRE+SCHOOL+Malmaddi+Dharwad+Karnataka+580007"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none" }}
+              >
+                <ScheduleButton startIcon={<FaMapMarkerAlt />}>
+                  Get Directions
+                </ScheduleButton>
+              </a>
+              <a
+                href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20schedule%20a%20campus%20visit"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none" }}
+              >
+                <ScheduleButton startIcon={<FaWhatsapp style={{ color: "#25D366" }} />}>
+                  Schedule a Visit
+                </ScheduleButton>
+              </a>
+            </Box>
+          </VisitCard>
+        </Box>
+      </Container>
+    </SectionRoot>
   );
 }

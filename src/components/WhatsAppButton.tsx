@@ -1,20 +1,57 @@
 "use client";
 
+import { styled } from "@mui/material/styles";
+import { Fab, Typography, Box } from "@mui/material";
 import { FaWhatsapp } from "react-icons/fa";
+
+const WhatsAppFab = styled(Fab)({
+  position: "fixed",
+  bottom: 24,
+  right: 24,
+  zIndex: 1000,
+  background: "#25D366",
+  color: "#fff",
+  width: 60,
+  height: 60,
+  boxShadow: "0 4px 20px rgba(37,211,102,0.4)",
+  "&:hover": {
+    background: "#1fb855",
+    boxShadow: "0 6px 25px rgba(37,211,102,0.5)",
+    transform: "scale(1.1)",
+  },
+  transition: "all 0.3s",
+});
+
+const PulseRing = styled(Box)({
+  position: "fixed",
+  bottom: 24,
+  right: 24,
+  zIndex: 999,
+  width: 60,
+  height: 60,
+  borderRadius: "50%",
+  border: "3px solid #25D366",
+  animation: "pulse-ring 2s ease-out infinite",
+  "@keyframes pulse-ring": {
+    "0%": { transform: "scale(1)", opacity: 1 },
+    "100%": { transform: "scale(1.5)", opacity: 0 },
+  },
+});
 
 export default function WhatsAppButton() {
   return (
-    <a
-      href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Prakruthi%20Pre%20School"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center gap-2 group"
-      aria-label="Chat on WhatsApp"
-    >
-      <FaWhatsapp className="text-3xl" />
-      <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap text-sm font-semibold">
-        Chat with us
-      </span>
-    </a>
+    <>
+      <PulseRing />
+      <a
+        href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Prakruthi%20Pre%20School"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: "none" }}
+      >
+        <WhatsAppFab aria-label="Chat on WhatsApp">
+          <FaWhatsapp style={{ fontSize: "1.8rem" }} />
+        </WhatsAppFab>
+      </a>
+    </>
   );
 }

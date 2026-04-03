@@ -1,10 +1,26 @@
-import { FaWhatsapp } from "react-icons/fa";
+"use client";
+
+import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Typography,
+  Container,
+  Chip,
+  Card,
+  CardContent,
+  Button,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { FaWhatsapp, FaCheck } from "react-icons/fa";
 
 const programs = [
   {
     name: "Play Group",
     age: "1.5 - 2.5 years",
-    color: "from-primary to-pink",
+    gradient: "linear-gradient(135deg, #FF6B35, #EC4899)",
     emoji: "🧸",
     features: [
       "Sensory play activities",
@@ -16,7 +32,7 @@ const programs = [
   {
     name: "Nursery",
     age: "2.5 - 3.5 years",
-    color: "from-secondary to-sky",
+    gradient: "linear-gradient(135deg, #4ECDC4, #38BDF8)",
     emoji: "🌟",
     features: [
       "Pre-reading & phonics",
@@ -29,7 +45,7 @@ const programs = [
   {
     name: "Pre-KG",
     age: "3.5 - 4.5 years",
-    color: "from-purple to-pink",
+    gradient: "linear-gradient(135deg, #A855F7, #EC4899)",
     emoji: "🚀",
     features: [
       "Early writing practice",
@@ -40,76 +56,134 @@ const programs = [
   },
 ];
 
-export default function ProgramsSection() {
+const SectionRoot = styled(Box)({
+  padding: "100px 0",
+  background: "#fff",
+});
+
+const ProgramCard = styled(Card)<{ popular?: boolean }>(({ popular }) => ({
+  height: "100%",
+  border: popular ? "2px solid #FF6B35" : "1px solid #f3f4f6",
+  position: "relative",
+  overflow: "visible",
+  transition: "all 0.3s ease",
+  transform: popular ? "scale(1.05)" : "scale(1)",
+  "&:hover": {
+    transform: popular ? "scale(1.07)" : "scale(1.03)",
+    boxShadow: "0 12px 40px rgba(0,0,0,0.1)",
+  },
+}));
+
+const PopularBadge = styled(Chip)({
+  position: "absolute",
+  top: -14,
+  right: 20,
+  background: "linear-gradient(135deg, #FF6B35, #EC4899)",
+  color: "#fff",
+  fontWeight: 700,
+  fontSize: "0.75rem",
+  height: 28,
+});
+
+const CardHeader = styled(Box)<{ bg: string }>(({ bg }) => ({
+  background: bg,
+  padding: "28px 24px",
+  textAlign: "center",
+  color: "#fff",
+}));
+
+const EnquireButton = styled(Button)(({ theme }) => ({
+  background: theme.palette.primary.main,
+  color: "#fff",
+  fontWeight: 700,
+  borderRadius: 12,
+  padding: "12px 24px",
+  width: "100%",
+  "&:hover": {
+    background: theme.palette.primary.dark,
+  },
+  transition: "all 0.3s",
+}));
+
+export default function ProgramsSection({ onEnquireClick }: { onEnquireClick?: (program: string) => void }) {
   return (
-    <section id="programs" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionRoot id="programs">
+      <Container maxWidth="lg">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block bg-purple/10 text-purple px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
-            Our Programs
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6">
+        <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: 8 }}>
+          <Chip
+            label="Our Programs"
+            sx={{
+              bgcolor: "rgba(168,85,247,0.1)",
+              color: "#A855F7",
+              fontWeight: 600,
+              mb: 2,
+            }}
+          />
+          <Typography variant="h2" sx={{ fontSize: { xs: "2rem", sm: "2.8rem" }, mb: 2 }}>
             Programs Designed for{" "}
-            <span className="text-primary">Every Stage</span>
-          </h2>
-          <p className="text-gray-600 text-lg">
+            <Box component="span" sx={{ color: "primary.main" }}>
+              Every Stage
+            </Box>
+          </Typography>
+          <Typography sx={{ color: "text.secondary", fontSize: "1.1rem" }}>
             Age-appropriate curriculum that makes learning a joyful journey for
             every child.
-          </p>
-        </div>
+          </Typography>
+        </Box>
 
-        {/* Program cards */}
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Cards */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" },
+            gap: 3,
+            alignItems: "center",
+          }}
+        >
           {programs.map((p) => (
-            <div
-              key={p.name}
-              className={`relative rounded-3xl overflow-hidden bg-white border-2 ${
-                p.popular
-                  ? "border-primary shadow-xl scale-105"
-                  : "border-gray-100 shadow-md"
-              } hover:shadow-xl transition-all duration-300`}
-            >
-              {p.popular && (
-                <div className="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Most Popular
-                </div>
-              )}
-
-              {/* Card Header */}
-              <div
-                className={`bg-gradient-to-r ${p.color} p-6 text-white text-center`}
-              >
-                <span className="text-5xl block mb-2">{p.emoji}</span>
-                <h3 className="text-2xl font-bold">{p.name}</h3>
-                <p className="text-white/80 mt-1">Age: {p.age}</p>
-              </div>
-
-              {/* Features */}
-              <div className="p-6">
-                <ul className="space-y-3">
+            <ProgramCard key={p.name} popular={p.popular} elevation={0}>
+              {p.popular && <PopularBadge label="Most Popular" />}
+              <CardHeader bg={p.gradient}>
+                <Box sx={{ fontSize: "3.5rem", mb: 1 }}>{p.emoji}</Box>
+                <Typography variant="h5" sx={{ color: "#fff" }}>
+                  {p.name}
+                </Typography>
+                <Typography sx={{ color: "rgba(255,255,255,0.8)", mt: 0.5 }}>
+                  Age: {p.age}
+                </Typography>
+              </CardHeader>
+              <CardContent sx={{ p: 3 }}>
+                <List disablePadding>
                   {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3">
-                      <span className="text-primary mt-0.5">✓</span>
-                      <span className="text-gray-600">{f}</span>
-                    </li>
+                    <ListItem key={f} disablePadding sx={{ py: 0.5 }}>
+                      <ListItemIcon sx={{ minWidth: 32, color: "primary.main" }}>
+                        <FaCheck style={{ fontSize: 14 }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={f}
+                        primaryTypographyProps={{
+                          color: "text.secondary",
+                          fontSize: "0.95rem",
+                        }}
+                      />
+                    </ListItem>
                   ))}
-                </ul>
-
-                <a
-                  href="https://wa.me/916361587391?text=Hi%2C%20I%20am%20interested%20in%20the%20{p.name}%20program%20at%20Prakruthi%20Pre%20School"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-semibold transition-colors"
-                >
-                  <FaWhatsapp />
-                  Enquire Now
-                </a>
-              </div>
-            </div>
+                </List>
+                <Box sx={{ mt: 3 }}>
+                  <EnquireButton
+                    fullWidth
+                    startIcon={<FaWhatsapp />}
+                    onClick={() => onEnquireClick?.(`${p.name} (${p.age})`)}
+                  >
+                    Enquire Now
+                  </EnquireButton>
+                </Box>
+              </CardContent>
+            </ProgramCard>
           ))}
-        </div>
-      </div>
-    </section>
+        </Box>
+      </Container>
+    </SectionRoot>
   );
 }

@@ -1,95 +1,277 @@
+"use client";
+
+import Image from "next/image";
+import { styled } from "@mui/material/styles";
+import { Box, Typography, Button, Container, Chip } from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { FaWhatsapp, FaArrowDown } from "react-icons/fa";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/pagination";
 
-export default function HeroSection() {
+const heroSlides = [
+  {
+    image: "/images/school-group.jpg",
+    title: "Our Prakruthi Family",
+    subtitle: "A loving community of students, teachers & parents",
+  },
+  {
+    image: "/images/campus-front.jpg",
+    title: "Our Beautiful Campus",
+    subtitle: "Safe, green, and inspiring learning spaces",
+  },
+  {
+    image: "/images/classroom.jpg",
+    title: "Engaging Classrooms",
+    subtitle: "Where curiosity meets creative learning",
+  },
+  {
+    image: "/images/bus-trip.jpg",
+    title: "Fun Field Trips",
+    subtitle: "Learning beyond the classroom walls",
+  },
+  {
+    image: "/images/rain-day.jpg",
+    title: "Theme-Based Activities",
+    subtitle: "Making every day a celebration of learning",
+  },
+];
+
+const HeroRoot = styled(Box)({
+  position: "relative",
+  minHeight: "100vh",
+  display: "flex",
+  alignItems: "center",
+  overflow: "hidden",
+  background: "linear-gradient(135deg, #FFF8F0 0%, #FFFFFF 50%, #FFF0E0 100%)",
+});
+
+const BlobDecor = styled(Box)<{ color: string; top?: string; left?: string; right?: string; bottom?: string }>(
+  ({ color, top, left, right, bottom }) => ({
+    position: "absolute",
+    width: 300,
+    height: 300,
+    borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+    background: color,
+    filter: "blur(60px)",
+    opacity: 0.15,
+    top,
+    left,
+    right,
+    bottom,
+    animation: "blob 7s ease-in-out infinite",
+  })
+);
+
+const GradientText = styled("span")<{ gradient: string }>(({ gradient }) => ({
+  background: gradient,
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+}));
+
+const StatBox = styled(Box)({
+  textAlign: "center",
+});
+
+const ImageSlide = styled(Box)({
+  position: "relative",
+  borderRadius: 24,
+  overflow: "hidden",
+  height: 420,
+  "& img": {
+    objectFit: "cover",
+  },
+});
+
+const SlideOverlay = styled(Box)({
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  right: 0,
+  background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
+  padding: "40px 24px 24px",
+  color: "#fff",
+});
+
+const WhatsAppBtn = styled(Button)({
+  background: "#25D366",
+  color: "#fff",
+  fontWeight: 700,
+  padding: "14px 32px",
+  borderRadius: 50,
+  fontSize: "1.05rem",
+  boxShadow: "0 4px 15px rgba(37,211,102,0.3)",
+  "&:hover": {
+    background: "#1fb855",
+    boxShadow: "0 6px 20px rgba(37,211,102,0.4)",
+    transform: "translateY(-2px)",
+  },
+  transition: "all 0.3s",
+});
+
+const LearnMoreBtn = styled(Button)(({ theme }) => ({
+  background: "#fff",
+  color: theme.palette.text.primary,
+  fontWeight: 600,
+  padding: "14px 32px",
+  borderRadius: 50,
+  fontSize: "1.05rem",
+  border: "1px solid #e5e7eb",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
+  "&:hover": {
+    background: "#f9fafb",
+    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+    transform: "translateY(-1px)",
+  },
+  transition: "all 0.3s",
+}));
+
+export default function HeroSection({ onEnquireClick }: { onEnquireClick?: () => void }) {
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-warm via-white to-orange-50"
-    >
-      {/* Decorative blobs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
-      <div className="absolute top-40 right-10 w-72 h-72 bg-secondary/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-accent/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
+    <HeroRoot id="home">
+      <BlobDecor color="#FF6B35" top="80px" left="40px" />
+      <BlobDecor color="#4ECDC4" top="160px" right="40px" />
+      <BlobDecor color="#FFE66D" bottom="-40px" left="50%" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Text content */}
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
-              <span>🌱</span> Admissions Open 2026-27
-            </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight">
+      <Container maxWidth="lg" sx={{ position: "relative", pt: { xs: 12, md: 14 }, pb: { xs: 8, md: 10 } }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+            gap: 6,
+            alignItems: "center",
+          }}
+        >
+          {/* Text */}
+          <Box>
+            <Chip
+              label="🌱 Admissions Open 2026-27"
+              sx={{
+                bgcolor: "rgba(255,107,53,0.1)",
+                color: "primary.main",
+                fontWeight: 600,
+                fontSize: "0.85rem",
+                mb: 3,
+                height: 36,
+              }}
+            />
+
+            <Typography
+              variant="h1"
+              sx={{
+                fontSize: { xs: "2.8rem", sm: "3.5rem", lg: "4.2rem" },
+                mb: 3,
+              }}
+            >
               Where{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink">
+              <GradientText gradient="linear-gradient(135deg, #FF6B35, #EC4899)">
                 Little Dreams
-              </span>{" "}
+              </GradientText>{" "}
               Begin to{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-sky">
+              <GradientText gradient="linear-gradient(135deg, #4ECDC4, #38BDF8)">
                 Bloom
-              </span>
-            </h1>
-            <p className="text-gray-600 text-lg sm:text-xl max-w-lg leading-relaxed">
+              </GradientText>
+            </Typography>
+
+            <Typography
+              sx={{
+                color: "text.secondary",
+                fontSize: { xs: "1.05rem", sm: "1.15rem" },
+                lineHeight: 1.8,
+                maxWidth: 520,
+                mb: 4,
+              }}
+            >
               At Prakruthi Pre School, we nurture curiosity, creativity, and
               confidence in every child through nature-inspired, play-based
               learning.
-            </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <a
-                href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20enroll%20my%20child%20at%20Prakruthi%20Pre%20School"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
-              >
-                <FaWhatsapp className="text-xl" />
-                Enquire on WhatsApp
-              </a>
-              <a
-                href="#about"
-                className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-full text-lg font-semibold shadow-md hover:shadow-lg transition-all border border-gray-200"
-              >
+            </Typography>
+
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 5 }}>
+              <WhatsAppBtn onClick={onEnquireClick} startIcon={<FaWhatsapp />}>
+                Enquire Now
+              </WhatsAppBtn>
+              <LearnMoreBtn href="#about" endIcon={<FaArrowDown style={{ fontSize: 14 }} />}>
                 Learn More
-                <FaArrowDown className="text-sm" />
-              </a>
-            </div>
+              </LearnMoreBtn>
+            </Box>
 
             {/* Stats */}
-            <div className="flex gap-8 pt-6">
+            <Box sx={{ display: "flex", gap: { xs: 4, sm: 6 } }}>
               {[
                 { num: "500+", label: "Happy Students" },
                 { num: "15+", label: "Years of Trust" },
                 { num: "50+", label: "Expert Teachers" },
               ].map((s) => (
-                <div key={s.label}>
-                  <div className="text-2xl font-bold text-primary">{s.num}</div>
-                  <div className="text-sm text-gray-500">{s.label}</div>
-                </div>
+                <StatBox key={s.label}>
+                  <Typography sx={{ fontSize: "1.6rem", fontWeight: 800, color: "primary.main" }}>
+                    {s.num}
+                  </Typography>
+                  <Typography sx={{ fontSize: "0.8rem", color: "text.secondary" }}>
+                    {s.label}
+                  </Typography>
+                </StatBox>
               ))}
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          {/* Hero illustration - colorful grid of placeholder cards */}
-          <div className="relative hidden lg:block">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div className="bg-gradient-to-br from-primary to-pink rounded-3xl h-48 flex items-center justify-center text-white text-6xl shadow-lg animate-float">
-                  🎨
-                </div>
-                <div className="bg-gradient-to-br from-secondary to-sky rounded-3xl h-64 flex items-center justify-center text-white text-6xl shadow-lg animate-float animation-delay-2000">
-                  📚
-                </div>
-              </div>
-              <div className="space-y-4 pt-8">
-                <div className="bg-gradient-to-br from-accent to-lime rounded-3xl h-64 flex items-center justify-center text-6xl shadow-lg animate-float animation-delay-4000">
-                  🌳
-                </div>
-                <div className="bg-gradient-to-br from-purple to-pink rounded-3xl h-48 flex items-center justify-center text-white text-6xl shadow-lg animate-float">
-                  🎵
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+          {/* Photo Carousel */}
+          <Box sx={{ display: { xs: "none", lg: "block" } }}>
+            <Swiper
+              modules={[Autoplay, EffectFade, Pagination]}
+              effect="fade"
+              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              pagination={{ clickable: true }}
+              loop
+              style={{ borderRadius: 24, overflow: "hidden" }}
+            >
+              {heroSlides.map((slide, i) => (
+                <SwiperSlide key={i}>
+                  <ImageSlide>
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      priority={i === 0}
+                    />
+                    <SlideOverlay>
+                      <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
+                        {slide.title}
+                      </Typography>
+                      <Typography sx={{ opacity: 0.85 }}>
+                        {slide.subtitle}
+                      </Typography>
+                    </SlideOverlay>
+                  </ImageSlide>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Box>
+
+          {/* Mobile Hero Image */}
+          <Box
+            sx={{
+              display: { xs: "block", lg: "none" },
+              borderRadius: 4,
+              overflow: "hidden",
+              position: "relative",
+              height: 250,
+              boxShadow: "0 8px 30px rgba(0,0,0,0.1)",
+            }}
+          >
+            <Image
+              src="/images/campus-front.jpg"
+              alt="Prakruthi Pre School Campus"
+              fill
+              sizes="100vw"
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </Box>
+        </Box>
+      </Container>
+    </HeroRoot>
   );
 }

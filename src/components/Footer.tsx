@@ -1,3 +1,7 @@
+"use client";
+
+import { styled } from "@mui/material/styles";
+import { Box, Typography, Container, IconButton } from "@mui/material";
 import {
   FaWhatsapp,
   FaPhone,
@@ -7,99 +11,133 @@ import {
   FaFacebookF,
 } from "react-icons/fa";
 
+const FooterRoot = styled(Box)({
+  background: "#111827",
+  color: "#d1d5db",
+  paddingTop: 80,
+  paddingBottom: 24,
+});
+
+const FooterLink = styled("a")({
+  color: "#d1d5db",
+  textDecoration: "none",
+  transition: "color 0.3s",
+  "&:hover": {
+    color: "#FF6B35",
+  },
+});
+
+const SocialButton = styled(IconButton)({
+  background: "#1f2937",
+  color: "#d1d5db",
+  transition: "all 0.3s",
+  "&:hover": {
+    background: "#FF6B35",
+    color: "#fff",
+  },
+});
+
+const LogoText = styled(Typography)({
+  fontSize: "1.4rem",
+  fontWeight: 800,
+  background: "linear-gradient(135deg, #FF6B35, #EC4899)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  lineHeight: 1.2,
+});
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <FooterRoot>
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" },
+            gap: 6,
+          }}
+        >
           {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-3xl">🌿</span>
-              <div>
-                <span className="text-xl font-bold text-white">Prakruthi</span>
-                <span className="text-sm block -mt-1 text-gray-400">
+          <Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+              <Box sx={{ fontSize: "2rem" }}>🌿</Box>
+              <Box>
+                <LogoText>Prakruthi</LogoText>
+                <Typography sx={{ fontSize: "0.75rem", color: "#9ca3af", mt: -0.3 }}>
                   Pre School
-                </span>
-              </div>
-            </div>
-            <p className="text-gray-400 leading-relaxed">
+                </Typography>
+              </Box>
+            </Box>
+            <Typography sx={{ color: "#9ca3af", lineHeight: 1.8, maxWidth: 300 }}>
               Nurturing young minds with love, creativity, and nature-inspired
               learning since day one.
-            </p>
-          </div>
+            </Typography>
+          </Box>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-semibold text-lg mb-4">
+          <Box>
+            <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: "1.1rem", mb: 2.5 }}>
               Quick Links
-            </h3>
-            <ul className="space-y-2">
-              {["Home", "About", "Gallery", "Programs", "Contact"].map((l) => (
-                <li key={l}>
-                  <a
-                    href={`#${l.toLowerCase()}`}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {l}
-                  </a>
-                </li>
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              {["Home", "About", "Gallery", "Programs", "Admission", "Contact"].map((l) => (
+                <FooterLink key={l} href={`#${l.toLowerCase()}`}>
+                  {l}
+                </FooterLink>
               ))}
-            </ul>
-          </div>
+            </Box>
+          </Box>
 
           {/* Contact */}
-          <div>
-            <h3 className="text-white font-semibold text-lg mb-4">
+          <Box>
+            <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: "1.1rem", mb: 2.5 }}>
               Contact Us
-            </h3>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3">
-                <FaPhone className="text-primary" />
-                <span>+91 63615 87391</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FaWhatsapp className="text-green-400" />
-                <a
-                  href="https://wa.me/916361587391"
-                  className="hover:text-green-400 transition-colors"
-                >
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <FaPhone style={{ color: "#FF6B35" }} />
+                <Typography>+91 63615 87391</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <FaWhatsapp style={{ color: "#25D366" }} />
+                <FooterLink href="https://wa.me/916361587391">
                   WhatsApp Us
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <FaEnvelope className="text-secondary" />
-                <span>info@prakruthipreschool.com</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <FaMapMarkerAlt className="text-pink mt-1" />
-                <span>Prakruthi Pre School, Bangalore, Karnataka</span>
-              </li>
-            </ul>
-            <div className="flex gap-4 mt-6">
-              <a
-                href="#"
-                className="bg-gray-800 hover:bg-primary p-2.5 rounded-full transition-colors"
-                aria-label="Instagram"
-              >
+                </FooterLink>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <FaEnvelope style={{ color: "#4ECDC4" }} />
+                <Typography>info@prakruthipreschool.com</Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
+                <FaMapMarkerAlt style={{ color: "#EC4899", marginTop: 4 }} />
+                <Typography>Prakruthi Pre School, Malmaddi, Dharwad, Karnataka 580007</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex", gap: 1.5, mt: 3 }}>
+              <SocialButton aria-label="Instagram" size="small">
                 <FaInstagram />
-              </a>
-              <a
-                href="#"
-                className="bg-gray-800 hover:bg-primary p-2.5 rounded-full transition-colors"
-                aria-label="Facebook"
-              >
+              </SocialButton>
+              <SocialButton aria-label="Facebook" size="small">
                 <FaFacebookF />
-              </a>
-            </div>
-          </div>
-        </div>
+              </SocialButton>
+            </Box>
+          </Box>
+        </Box>
 
-        <div className="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500 text-sm">
-          &copy; {new Date().getFullYear()} Prakruthi Pre School. All rights
-          reserved.
-        </div>
-      </div>
-    </footer>
+        <Box
+          sx={{
+            borderTop: "1px solid #1f2937",
+            mt: 6,
+            pt: 3,
+            textAlign: "center",
+          }}
+        >
+          <Typography sx={{ color: "#6b7280", fontSize: "0.85rem" }}>
+            &copy; {new Date().getFullYear()} Prakruthi Pre School. All rights
+            reserved.
+          </Typography>
+        </Box>
+      </Container>
+    </FooterRoot>
   );
 }

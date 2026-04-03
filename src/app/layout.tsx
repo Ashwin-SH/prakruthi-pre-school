@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import ThemeProvider from "@/components/ThemeProvider";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const viewport: Viewport = {
@@ -38,12 +40,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="en" className={`${montserrat.variable} h-full antialiased`}>
       <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
       </head>
-      <body className="min-h-full flex flex-col font-sans">
-        {children}
+      <body className="min-h-full flex flex-col" style={{ fontFamily: "'Montserrat', Arial, sans-serif" }}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>
