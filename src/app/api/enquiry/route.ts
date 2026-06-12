@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Enquiry } from "@/lib/models/Enquiry";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Gmail SMTP transporter — sends notification emails to any recipient.
+// Requires GMAIL_USER (the sending Gmail address) and GMAIL_APP_PASSWORD
+// (a 16-char Google App Password, NOT the normal account password).
+const mailer = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,10 +41,10 @@ export async function POST(req: NextRequest) {
       console.error("Google Sheet update failed:", sheetError);
     }
 
-    // Send email notification
+    // Send email notification (Gmail SMTP)
     try {
-      await resend.emails.send({
-        from: "Prakruthi Pre School <onboarding@resend.dev>",
+      await mailer.sendMail({
+        from: `"Prakruthi Pre School" <${process.env.GMAIL_USER}>`,
         to: process.env.NOTIFICATION_EMAIL!.split(",").map((e) => e.trim()).filter(Boolean),
         subject: `🌿 New Admission Enquiry - ${childName}`,
         html: `
