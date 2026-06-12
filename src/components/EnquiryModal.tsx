@@ -96,9 +96,12 @@ export default function EnquiryModal({ open, onClose, preselectedProgram }: Enqu
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: 4,
+          borderRadius: { xs: 3, sm: 4 },
           overflow: "hidden",
-          m: { xs: 1, sm: 3 },
+          m: { xs: "10px", sm: 3 },
+          width: { xs: "calc(100% - 20px)", sm: "100%" },
+          maxWidth: { xs: "calc(100% - 20px)", sm: 600 },
+          maxHeight: { xs: "calc(100% - 20px)", sm: "90vh" },
         },
       }}
     >
@@ -106,21 +109,24 @@ export default function EnquiryModal({ open, onClose, preselectedProgram }: Enqu
       <Box
         sx={{
           background: "linear-gradient(135deg, #FF6B35, #EC4899)",
-          p: 3,
+          p: { xs: 2, sm: 3 },
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
         <Box>
-          <Typography variant="h5" sx={{ color: "#fff", fontWeight: 700 }}>
+          <Typography
+            variant="h5"
+            sx={{ color: "#fff", fontWeight: 700, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+          >
             Enroll Your Little One
           </Typography>
-          <Typography sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.9rem", mt: 0.5 }}>
+          <Typography sx={{ color: "rgba(255,255,255,0.8)", fontSize: { xs: "0.78rem", sm: "0.9rem" }, mt: 0.5 }}>
             Fill in the details and we&apos;ll get back to you soon!
           </Typography>
         </Box>
-        <IconButton onClick={handleClose} sx={{ color: "#fff" }}>
+        <IconButton onClick={handleClose} sx={{ color: "#fff", flexShrink: 0 }}>
           <FaTimes />
         </IconButton>
       </Box>
@@ -128,11 +134,11 @@ export default function EnquiryModal({ open, onClose, preselectedProgram }: Enqu
       <DialogContent sx={{ p: { xs: 2, sm: 3.5 }, bgcolor: "#FFF8F0" }}>
         {status === "success" ? (
           <Box sx={{ textAlign: "center", py: 4 }}>
-            <Box sx={{ fontSize: "4rem", mb: 2 }}>🎉</Box>
-            <Typography variant="h5" sx={{ color: "#15803d", fontWeight: 700, mb: 1 }}>
+            <Box sx={{ fontSize: { xs: "3rem", sm: "4rem" }, mb: 2 }}>🎉</Box>
+            <Typography variant="h5" sx={{ color: "#15803d", fontWeight: 700, mb: 1, fontSize: { xs: "1.3rem", sm: "1.5rem" } }}>
               Thank You!
             </Typography>
-            <Typography sx={{ color: "#16a34a", mb: 3 }}>
+            <Typography sx={{ color: "#16a34a", mb: 3, fontSize: { xs: "0.9rem", sm: "1rem" } }}>
               Your enquiry has been submitted. We&apos;ll contact you soon!
             </Typography>
             <Button
@@ -192,12 +198,11 @@ export default function EnquiryModal({ open, onClose, preselectedProgram }: Enqu
                 size="small"
               />
               <StyledTextField
-                label="Email Address"
+                label="Email Address (optional)"
                 name="email"
                 type="email"
                 value={form.email}
                 onChange={handleChange}
-                required
                 fullWidth
                 size="small"
               />
@@ -239,6 +244,7 @@ export default function EnquiryModal({ open, onClose, preselectedProgram }: Enqu
               fullWidth
               disabled={status === "loading"}
               startIcon={status === "loading" ? undefined : <FaPaperPlane />}
+              sx={{ fontSize: { xs: "0.95rem", sm: "1.05rem" }, py: { xs: 1.25, sm: "14px" } }}
             >
               {status === "loading" ? "Submitting..." : "Submit Enquiry"}
             </SubmitButton>

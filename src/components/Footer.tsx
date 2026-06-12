@@ -10,6 +10,7 @@ import {
   FaInstagram,
   FaFacebookF,
 } from "react-icons/fa";
+import { PHONE_DISPLAY, whatsappLink } from "@/lib/contact";
 
 const FooterRoot = styled(Box)({
   background: "#111827",
@@ -96,11 +97,11 @@ export default function Footer() {
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                 <FaPhone style={{ color: "#FF6B35" }} />
-                <Typography>+91 63615 87391</Typography>
+                <Typography>{PHONE_DISPLAY}</Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                 <FaWhatsapp style={{ color: "#25D366" }} />
-                <FooterLink href="https://wa.me/916361587391">
+                <FooterLink href={whatsappLink()}>
                   WhatsApp Us
                 </FooterLink>
               </Box>

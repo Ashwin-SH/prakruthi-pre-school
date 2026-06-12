@@ -195,12 +195,11 @@ export default function AdmissionForm() {
                   fullWidth
                 />
                 <StyledTextField
-                  label="Email Address"
+                  label="Email Address (optional)"
                   name="email"
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                  required
                   fullWidth
                 />
                 <StyledTextField

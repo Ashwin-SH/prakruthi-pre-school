@@ -6,7 +6,7 @@ const EnquirySchema = new Schema(
     childAge: { type: String, required: true },
     parentName: { type: String, required: true },
     phone: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, default: "" },
     program: { type: String, required: true },
     message: { type: String, default: "" },
   },

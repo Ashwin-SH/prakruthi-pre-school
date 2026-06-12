@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import {
@@ -8,75 +8,82 @@ import {
   Typography,
   Container,
   Chip,
-  Dialog,
+  Modal,
   IconButton,
 } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import "swiper/swiper-bundle.css";
 
 type GalleryItem = {
   label: string;
-  gradient?: string;
-  emoji?: string;
-  image?: string;
+  image: string;
+  w: number;
+  h: number;
 };
 
 const galleryItems: GalleryItem[] = [
-  { image: "/images/school-group.jpg", label: "Our Prakruthi Family" },
-  { image: "/images/christmas.jpg", label: "Christmas Celebration" },
-  { image: "/images/field-trip.jpg", label: "Field Trip Adventures" },
-  { image: "/images/gardening.jpg", label: "Gardening Activities" },
-  { image: "/images/green-day.webp", label: "Green Day Celebration" },
-  { image: "/images/rain-day.jpg", label: "Rain Day Theme" },
-  { image: "/images/art-craft.jpg", label: "Art & Craft Time" },
-  { image: "/images/school-fair.jpg", label: "School Fair" },
-  { image: "/images/welcome-ceremony.jpg", label: "Welcome Ceremony" },
-  { image: "/images/bus-trip.jpg", label: "School Bus Trip" },
-  { image: "/images/parent-meeting.jpg", label: "Parent-Teacher Meeting" },
-  { image: "/images/school-event.jpg", label: "School Events" },
+  { image: "/images/krishnashtami-day.jpg", label: "Krishnashtami Day", w: 1280, h: 960 },
+  { image: "/images/fancy-dress-day.jpg", label: "Fancy Dress Day", w: 1280, h: 960 },
+  { image: "/images/festival-celebration.jpg", label: "Festival Celebrations", w: 1600, h: 1200 },
+  { image: "/images/independence-day.jpg", label: "Independence Day", w: 1600, h: 1200 },
+  { image: "/images/school-group.jpg", label: "Our Prakruthi Family", w: 966, h: 960 },
+  { image: "/images/christmas.jpg", label: "Christmas Celebration", w: 786, h: 590 },
+  { image: "/images/field-trip.jpg", label: "Field Trip Adventures", w: 2304, h: 1040 },
+  { image: "/images/gardening.jpg", label: "Gardening Activities", w: 786, h: 355 },
+  { image: "/images/green-day.webp", label: "Green Day Celebration", w: 1728, h: 912 },
+  { image: "/images/rain-day.jpg", label: "Rain Day Theme", w: 786, h: 1286 },
+  { image: "/images/art-craft.jpg", label: "Art & Craft Time", w: 786, h: 355 },
+  { image: "/images/school-fair.jpg", label: "School Fair", w: 786, h: 590 },
+  { image: "/images/welcome-ceremony.jpg", label: "Welcome Ceremony", w: 786, h: 590 },
+  { image: "/images/bus-trip.jpg", label: "School Bus Trip", w: 786, h: 590 },
+  { image: "/images/parent-meeting.jpg", label: "Parent-Teacher Meeting", w: 786, h: 590 },
+  { image: "/images/school-event.jpg", label: "School Events", w: 786, h: 590 },
 ];
 
 const SectionRoot = styled(Box)({
   padding: "100px 0",
   background: "#FFF8F0",
+  overflow: "hidden",
 });
 
-const GalleryCard = styled(Box)<{ bg: string }>(({ bg }) => ({
-  background: bg,
+const GalleryCard = styled(Box)({
+  position: "relative",
+  flexShrink: 0,
   borderRadius: 20,
   overflow: "hidden",
   cursor: "pointer",
-  transition: "all 0.4s ease",
+  boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+  transition: "transform 0.3s ease, box-shadow 0.3s ease",
   "&:hover": {
-    transform: "translateY(-6px) scale(1.02)",
-    boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
-  },
-  "&:hover .emoji": {
-    transform: "scale(1.3) rotate(5deg)",
-  },
-}));
-
-const VideoCard = styled(Box)({
-  borderRadius: 20,
-  overflow: "hidden",
-  boxShadow: "0 8px 30px rgba(0,0,0,0.1)",
-  "& iframe": {
-    width: "100%",
-    height: "100%",
-    border: "none",
+    transform: "scale(1.04)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
   },
 });
 
 export default function GallerySection() {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const [inView, setInView] = useState(true);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+
+  // Only scroll while the section is on screen.
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const ob = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    ob.observe(el);
+    return () => ob.disconnect();
+  }, []);
+
+  // Pause when a photo is open (lightbox) or when the section is off screen.
+  const scrolling = inView && lightbox === null;
 
   return (
-    <SectionRoot id="gallery">
+    <SectionRoot id="gallery" sx={{ py: { xs: 5, md: "100px" }, mt: { xs: "-20px", md: 0 } }}>
       <Container maxWidth="lg">
         {/* Header */}
-        <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: 8 }}>
+        <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: { xs: 4, md: 7 } }}>
           <Chip
             label="Our Gallery"
             sx={{
@@ -97,219 +104,153 @@ export default function GallerySection() {
             Pre School.
           </Typography>
         </Box>
+      </Container>
 
-        {/* Gallery Carousel - Mobile */}
-        <Box sx={{ display: { xs: "block", md: "none" }, mb: 4 }}>
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            autoplay={{ delay: 2500 }}
-            pagination={{ clickable: true }}
-            loop
-            spaceBetween={12}
-            slidesPerView={1.3}
-            centeredSlides
-          >
-            {galleryItems.map((item, i) => (
-              <SwiperSlide key={i}>
-                <GalleryCard bg={item.image ? "transparent" : item.gradient!} onClick={() => setLightbox(i)} sx={{ height: 220, position: "relative" }}>
-                  {item.image ? (
-                    <>
-                      <Image src={item.image} alt={item.label} fill sizes="80vw" style={{ objectFit: "cover", borderRadius: 20 }} />
-                      <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(0,0,0,0.7))", p: 2, borderRadius: "0 0 20px 20px" }}>
-                        <Typography sx={{ color: "#fff", fontWeight: 600 }}>{item.label}</Typography>
-                      </Box>
-                    </>
-                  ) : (
-                    <Box sx={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff" }}>
-                      <Box className="emoji" sx={{ fontSize: "4rem", transition: "transform 0.4s", mb: 1 }}>{item.emoji}</Box>
-                      <Typography sx={{ fontWeight: 600, opacity: 0.9 }}>{item.label}</Typography>
-                    </Box>
-                  )}
-                </GalleryCard>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Box>
-
-        {/* Gallery Grid - Desktop */}
+      {/* Continuous right-to-left scroller (full-bleed) */}
+      <Box ref={trackRef} sx={{ overflow: "hidden", py: 2 }}>
         <Box
-          sx={{
-            display: { xs: "none", md: "grid" },
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gridTemplateRows: "auto",
-            gap: 2.5,
-          }}
+          className="gallery-marquee"
+          style={{ animationPlayState: scrolling ? "running" : "paused" }}
+          sx={{ display: "flex", gap: 2.5, width: "max-content", px: 1.5 }}
         >
-          {galleryItems.map((item, i) => (
-            <GalleryCard
-              key={i}
-              bg={item.image ? "transparent" : item.gradient!}
-              onClick={() => setLightbox(i)}
-              sx={{
-                gridColumn: i === 0 || i === 4 ? "span 2" : "span 1",
-                gridRow: i === 0 || i === 4 ? "span 2" : "span 1",
-                height: i === 0 || i === 4 ? "auto" : 220,
-                minHeight: i === 0 || i === 4 ? 340 : 220,
-                position: "relative",
-              }}
-            >
-              {item.image ? (
-                <>
-                  <Image src={item.image} alt={item.label} fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover", borderRadius: 20 }} />
-                  <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(0,0,0,0.7))", p: 2.5, borderRadius: "0 0 20px 20px", zIndex: 1 }}>
-                    <Typography sx={{ color: "#fff", fontWeight: 700, fontSize: i === 0 || i === 4 ? "1.2rem" : "0.95rem" }}>
-                      {item.label}
-                    </Typography>
-                  </Box>
-                </>
-              ) : (
-                <Box sx={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff", p: 3 }}>
-                  <Box className="emoji" sx={{ fontSize: i === 0 || i === 4 ? "6rem" : "3.5rem", transition: "transform 0.4s", mb: 1 }}>
-                    {item.emoji}
-                  </Box>
-                  <Typography sx={{ fontWeight: 600, opacity: 0.9, fontSize: i === 0 || i === 4 ? "1.2rem" : "0.95rem" }}>
+          {[...galleryItems, ...galleryItems].map((item, i) => {
+            const real = i % galleryItems.length;
+            return (
+              <GalleryCard
+                key={i}
+                onClick={() => setLightbox(real)}
+                aria-label={`View ${item.label}`}
+                sx={{ width: { xs: 210, md: 300 }, height: { xs: 165, md: 230 } }}
+              >
+                <Image
+                  src={item.image}
+                  alt={item.label}
+                  fill
+                  sizes="(max-width: 768px) 60vw, 300px"
+                  style={{ objectFit: "cover" }}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
+                    p: 1.5,
+                  }}
+                >
+                  <Typography sx={{ color: "#fff", fontWeight: 600, fontSize: { xs: "0.8rem", md: "0.95rem" } }}>
                     {item.label}
                   </Typography>
                 </Box>
-              )}
-            </GalleryCard>
-          ))}
+              </GalleryCard>
+            );
+          })}
         </Box>
+      </Box>
 
-        {/* Lightbox */}
-        <Dialog
-          open={lightbox !== null}
-          onClose={() => setLightbox(null)}
-          maxWidth="md"
-          fullWidth
-          PaperProps={{
-            sx: {
-              borderRadius: 4,
-              overflow: "hidden",
-              bgcolor: "transparent",
-              boxShadow: "none",
-            },
+      {/* Lightbox — frosted overlay (page blurred behind), pauses the scroll */}
+      <Modal open={lightbox !== null} onClose={() => setLightbox(null)} hideBackdrop>
+        <Box
+          onClick={() => setLightbox(null)}
+          sx={{
+            position: "fixed",
+            inset: 0,
+            bgcolor: "rgba(12,14,22,0.45)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            animation: "fadeIn 0.3s ease",
           }}
         >
-          {lightbox !== null && (
-            <Box sx={{ position: "relative" }}>
-              {galleryItems[lightbox].image ? (
-                <Box sx={{ position: "relative", height: { xs: 300, sm: 450 }, borderRadius: 4, overflow: "hidden" }}>
-                  <Image
-                    src={galleryItems[lightbox].image!}
-                    alt={galleryItems[lightbox].label}
-                    fill
-                    sizes="90vw"
-                    style={{ objectFit: "cover" }}
-                  />
-                  <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(0,0,0,0.7))", p: 3 }}>
-                    <Typography variant="h4" sx={{ color: "#fff" }}>
-                      {galleryItems[lightbox].label}
-                    </Typography>
-                  </Box>
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    background: galleryItems[lightbox].gradient,
-                    height: { xs: 300, sm: 450 },
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#fff",
-                    borderRadius: 4,
-                  }}
-                >
-                  <Box sx={{ fontSize: { xs: "5rem", sm: "8rem" }, mb: 2 }}>
-                    {galleryItems[lightbox].emoji}
-                  </Box>
-                  <Typography variant="h4" sx={{ color: "#fff" }}>
-                    {galleryItems[lightbox].label}
-                  </Typography>
-                </Box>
-              )}
-              <IconButton
-                onClick={() => setLightbox(null)}
-                sx={{
-                  position: "absolute",
-                  top: 12,
-                  right: 12,
-                  bgcolor: "rgba(0,0,0,0.4)",
-                  color: "#fff",
-                  "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
-                }}
-              >
-                <FaTimes />
-              </IconButton>
-              <IconButton
-                onClick={() => setLightbox((lightbox - 1 + galleryItems.length) % galleryItems.length)}
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: 12,
-                  transform: "translateY(-50%)",
-                  bgcolor: "rgba(0,0,0,0.4)",
-                  color: "#fff",
-                  "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
-                }}
-              >
-                <FaChevronLeft />
-              </IconButton>
-              <IconButton
-                onClick={() => setLightbox((lightbox + 1) % galleryItems.length)}
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  right: 12,
-                  transform: "translateY(-50%)",
-                  bgcolor: "rgba(0,0,0,0.4)",
-                  color: "#fff",
-                  "&:hover": { bgcolor: "rgba(0,0,0,0.6)" },
-                }}
-              >
-                <FaChevronRight />
-              </IconButton>
-            </Box>
-          )}
-        </Dialog>
-
-        {/* Video Section */}
-        <Box sx={{ mt: 10 }}>
-          <Typography variant="h4" sx={{ textAlign: "center", mb: 4 }}>
-            Watch Our Little Stars in Action
-          </Typography>
-          <Box
+          <IconButton
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            size="small"
             sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-              gap: 3,
+              position: "absolute",
+              top: 14,
+              right: 14,
+              color: "#fff",
+              bgcolor: "rgba(0,0,0,0.35)",
+              "&:hover": { bgcolor: "rgba(0,0,0,0.55)" },
             }}
           >
-            <VideoCard sx={{ aspectRatio: "16/9" }}>
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="School Activities"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </VideoCard>
-            <VideoCard sx={{ aspectRatio: "16/9" }}>
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Annual Day"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </VideoCard>
-          </Box>
-          <Typography
-            sx={{ textAlign: "center", color: "#ccc", fontSize: "0.85rem", mt: 2 }}
+            <FaTimes style={{ fontSize: 14 }} />
+          </IconButton>
+
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox((p) => (p === null ? p : (p - 1 + galleryItems.length) % galleryItems.length));
+            }}
+            aria-label="Previous"
+            sx={{
+              position: "absolute",
+              left: { xs: 8, sm: 24 },
+              color: "#fff",
+              bgcolor: "rgba(0,0,0,0.35)",
+              "&:hover": { bgcolor: "rgba(0,0,0,0.55)" },
+            }}
           >
-            Replace these with your school&apos;s actual YouTube video links
-          </Typography>
+            <FaChevronLeft />
+          </IconButton>
+
+          <Box
+            onClick={(e) => e.stopPropagation()}
+            sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1.5 }}
+          >
+            {lightbox !== null && (
+              <>
+                <Image
+                  src={galleryItems[lightbox].image}
+                  alt={galleryItems[lightbox].label}
+                  width={galleryItems[lightbox].w}
+                  height={galleryItems[lightbox].h}
+                  sizes="90vw"
+                  style={{
+                    width: `min(90vw, calc(80vh * ${galleryItems[lightbox].w} / ${galleryItems[lightbox].h}))`,
+                    height: "auto",
+                    borderRadius: 18,
+                    boxShadow: "0 30px 80px rgba(0,0,0,0.45)",
+                    display: "block",
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    fontWeight: 600,
+                    fontSize: { xs: "0.95rem", sm: "1.15rem" },
+                    textShadow: "0 1px 6px rgba(0,0,0,0.5)",
+                    textAlign: "center",
+                  }}
+                >
+                  {galleryItems[lightbox].label}
+                </Typography>
+              </>
+            )}
+          </Box>
+
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox((p) => (p === null ? p : (p + 1) % galleryItems.length));
+            }}
+            aria-label="Next"
+            sx={{
+              position: "absolute",
+              right: { xs: 8, sm: 24 },
+              color: "#fff",
+              bgcolor: "rgba(0,0,0,0.35)",
+              "&:hover": { bgcolor: "rgba(0,0,0,0.55)" },
+            }}
+          >
+            <FaChevronRight />
+          </IconButton>
         </Box>
-      </Container>
+      </Modal>
     </SectionRoot>
   );
 }

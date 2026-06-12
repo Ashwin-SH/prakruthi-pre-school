@@ -17,6 +17,7 @@ import {
   FaMapMarkerAlt,
   FaClock,
 } from "react-icons/fa";
+import { PHONE_DISPLAY, TEL_LINK, whatsappLink } from "@/lib/contact";
 
 const SectionRoot = styled(Box)({
   padding: "100px 0",
@@ -84,8 +85,8 @@ const contactItems = [
     iconcolor: "#22c55e",
     title: "WhatsApp",
     subtitle: "Quick replies, usually within minutes",
-    link: "https://wa.me/916361587391",
-    linkText: "+91 63615 87391",
+    link: whatsappLink(),
+    linkText: PHONE_DISPLAY,
   },
   {
     icon: <FaPhone />,
@@ -93,8 +94,8 @@ const contactItems = [
     iconcolor: "#FF6B35",
     title: "Call Us",
     subtitle: "Mon - Sat, 9 AM to 5 PM",
-    link: "tel:+916361587391",
-    linkText: "+91 63615 87391",
+    link: TEL_LINK,
+    linkText: PHONE_DISPLAY,
   },
   {
     icon: <FaEnvelope />,
@@ -197,7 +198,7 @@ export default function ContactSection() {
           </Box>
 
           {/* Visit Card */}
-          <VisitCard>
+          <VisitCard sx={{ p: { xs: 3, sm: 6 }, minHeight: { xs: 320, sm: 400 } }}>
             <Box
               sx={{
                 bgcolor: "rgba(255,255,255,0.2)",
@@ -208,7 +209,7 @@ export default function ContactSection() {
             >
               <FaMapMarkerAlt style={{ fontSize: "2.5rem" }} />
             </Box>
-            <Typography variant="h3" sx={{ color: "#fff", mb: 2 }}>
+            <Typography variant="h3" sx={{ color: "#fff", mb: 2, fontSize: { xs: "1.6rem", sm: "2rem" } }}>
               Visit Our Campus
             </Typography>
             <Typography sx={{ color: "rgba(255,255,255,0.85)", fontSize: "1.1rem", mb: 1 }}>
@@ -217,24 +218,24 @@ export default function ContactSection() {
             <Typography sx={{ color: "rgba(255,255,255,0.7)", mb: 4, maxWidth: 350 }}>
               Malmaddi, Dharwad, Karnataka 580007
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "stretch", width: "100%", maxWidth: 320 }}>
               <a
                 href="https://www.google.com/maps/dir/?api=1&destination=PRAKRUTHI+PRE+SCHOOL+Malmaddi+Dharwad+Karnataka+580007"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", width: "100%" }}
               >
-                <ScheduleButton startIcon={<FaMapMarkerAlt />}>
+                <ScheduleButton fullWidth startIcon={<FaMapMarkerAlt />}>
                   Get Directions
                 </ScheduleButton>
               </a>
               <a
-                href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20schedule%20a%20campus%20visit"
+                href={whatsappLink("Hi, I would like to schedule a campus visit")}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", width: "100%" }}
               >
-                <ScheduleButton startIcon={<FaWhatsapp style={{ color: "#25D366" }} />}>
+                <ScheduleButton fullWidth startIcon={<FaWhatsapp style={{ color: "#25D366" }} />}>
                   Schedule a Visit
                 </ScheduleButton>
               </a>

@@ -6,7 +6,7 @@ if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable");
 }
 
-let cached = global as typeof globalThis & {
+const cached = global as typeof globalThis & {
   mongoose: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null };
 };
 
@@ -23,6 +23,14 @@ export async function connectDB() {
     cached.mongoose.promise = mongoose.connect(MONGODB_URI);
   }
 
-  cached.mongoose.conn = await cached.mongoose.promise;
+  try {
+    cached.mongoose.conn = await cached.mongoose.promise;
+  } catch (err) {
+    // Don't cache a failed connection (e.g. cluster paused / transient DNS) —
+    // clear it so the next request retries with a fresh connection.
+    cached.mongoose.promise = null;
+    throw err;
+  }
+
   return cached.mongoose.conn;
 }

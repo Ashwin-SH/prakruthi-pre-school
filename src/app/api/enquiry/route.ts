@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const { childName, childAge, parentName, phone, email, program, message } = body;
-    if (!childName || !childAge || !parentName || !phone || !email || !program) {
+    if (!childName || !childAge || !parentName || !phone || !program) {
       return NextResponse.json(
         { error: "All required fields must be filled" },
         { status: 400 }
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
               <table style="width: 100%; border-collapse: collapse;">
                 <tr><td style="padding: 8px 0; color: #666; width: 140px;">Parent Name</td><td style="padding: 8px 0; font-weight: bold;">${parentName}</td></tr>
                 <tr><td style="padding: 8px 0; color: #666;">Phone</td><td style="padding: 8px 0; font-weight: bold;"><a href="tel:${phone}">${phone}</a></td></tr>
-                <tr><td style="padding: 8px 0; color: #666;">Email</td><td style="padding: 8px 0; font-weight: bold;"><a href="mailto:${email}">${email}</a></td></tr>
+                <tr><td style="padding: 8px 0; color: #666;">Email</td><td style="padding: 8px 0; font-weight: bold;">${email ? `<a href="mailto:${email}">${email}</a>` : "Not provided"}</td></tr>
               </table>
               ${message ? `<h2 style="color: #FF6B35; margin-top: 20px;">Message</h2><p style="background: white; padding: 12px; border-radius: 8px; color: #333;">${message}</p>` : ""}
             </div>

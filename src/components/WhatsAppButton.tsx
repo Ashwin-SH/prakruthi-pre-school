@@ -3,6 +3,7 @@
 import { styled } from "@mui/material/styles";
 import { Fab, Typography, Box } from "@mui/material";
 import { FaWhatsapp } from "react-icons/fa";
+import { whatsappLink } from "@/lib/contact";
 
 const WhatsAppFab = styled(Fab)({
   position: "fixed",
@@ -43,13 +44,13 @@ export default function WhatsAppButton() {
     <>
       <PulseRing />
       <a
-        href="https://wa.me/916361587391?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Prakruthi%20Pre%20School"
+        href={whatsappLink("Hi, I would like to know more about Prakruthi Pre School")}
         target="_blank"
         rel="noopener noreferrer"
         style={{ textDecoration: "none" }}
       >
         <WhatsAppFab aria-label="Chat on WhatsApp">
-          <FaWhatsapp style={{ fontSize: "1.8rem" }} />
+          <FaWhatsapp style={{ fontSize: "1.3rem" }} />
         </WhatsAppFab>
       </a>
     </>

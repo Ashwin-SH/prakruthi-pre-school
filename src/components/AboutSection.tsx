@@ -8,8 +8,6 @@ import {
   FaPaintBrush,
   FaMusic,
   FaBook,
-  FaHeart,
-  FaStar,
 } from "react-icons/fa";
 
 const features = [
@@ -41,24 +39,11 @@ const features = [
     color: "#38BDF8",
     bg: "#f0f9ff",
   },
-  {
-    icon: <FaHeart />,
-    title: "Social Skills",
-    desc: "Group activities and guided play that teach sharing, empathy, and cooperation.",
-    color: "#EC4899",
-    bg: "#fdf2f8",
-  },
-  {
-    icon: <FaStar />,
-    title: "Holistic Growth",
-    desc: "A balanced approach to physical, emotional, and intellectual development.",
-    color: "#EAB308",
-    bg: "#fefce8",
-  },
 ];
 
 const SectionRoot = styled(Box)({
-  padding: "100px 0",
+  paddingTop: 20,
+  paddingBottom: 100,
   background: "#fff",
 });
 
@@ -177,24 +162,70 @@ export default function AboutSection() {
           ))}
         </Box>
 
+        {/* Cards heading */}
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: "center",
+            fontSize: { xs: "1.6rem", sm: "2.1rem" },
+            mb: { xs: 3, sm: 5 },
+          }}
+        >
+          Our Learning{" "}
+          <Box component="span" sx={{ color: "primary.main" }}>
+            Pillars
+          </Box>
+        </Typography>
+
         {/* Features */}
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", lg: "1fr 1fr 1fr" },
-            gap: 3,
+            gridTemplateColumns: { xs: "1fr 1fr", lg: "repeat(4, 1fr)" },
+            gap: { xs: 1.5, sm: 3 },
           }}
         >
           {features.map((f) => (
             <FeatureCard key={f.title} elevation={0}>
-              <CardContent sx={{ p: 3.5 }}>
-                <IconCircle bgcolor={f.bg} iconcolor={f.color}>
+              <CardContent
+                sx={{
+                  p: { xs: 2.5, sm: 3.5 },
+                  textAlign: { xs: "center", sm: "left" },
+                  "&:last-child": { pb: { xs: 2.5, sm: 3.5 } },
+                }}
+              >
+                <IconCircle
+                  bgcolor={f.bg}
+                  iconcolor={f.color}
+                  sx={{
+                    width: { xs: 52, sm: 56 },
+                    height: { xs: 52, sm: 56 },
+                    fontSize: { xs: "1.3rem", sm: "1.4rem" },
+                    mb: { xs: 1.5, sm: 2 },
+                    mx: { xs: "auto", sm: 0 },
+                  }}
+                >
                   {f.icon}
                 </IconCircle>
-                <Typography variant="h6" sx={{ mb: 1, fontSize: "1.15rem" }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    mb: { xs: 0, sm: 1 },
+                    fontFamily: "var(--font-playfair), 'Georgia', serif",
+                    fontWeight: 600,
+                    fontSize: { xs: "1.02rem", sm: "1.2rem" },
+                  }}
+                >
                   {f.title}
                 </Typography>
-                <Typography sx={{ color: "text.secondary", lineHeight: 1.7 }}>
+                <Typography
+                  sx={{
+                    color: "text.secondary",
+                    lineHeight: 1.6,
+                    fontSize: "0.95rem",
+                    display: { xs: "none", sm: "block" },
+                  }}
+                >
                   {f.desc}
                 </Typography>
               </CardContent>

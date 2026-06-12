@@ -39,19 +39,24 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "'Montserrat', 'Arial', sans-serif",
+    // Elegant serif for headings; clean sans (above) for body & buttons.
     h1: {
+      fontFamily: "var(--font-playfair), 'Georgia', serif",
       fontWeight: 800,
       lineHeight: 1.1,
     },
     h2: {
-      fontWeight: 800,
+      fontFamily: "var(--font-playfair), 'Georgia', serif",
+      fontWeight: 700,
       lineHeight: 1.2,
     },
     h3: {
+      fontFamily: "var(--font-playfair), 'Georgia', serif",
       fontWeight: 700,
     },
     h4: {
-      fontWeight: 700,
+      fontFamily: "var(--font-playfair), 'Georgia', serif",
+      fontWeight: 600,
     },
     h5: {
       fontWeight: 600,

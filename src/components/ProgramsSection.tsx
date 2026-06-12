@@ -61,7 +61,9 @@ const SectionRoot = styled(Box)({
   background: "#fff",
 });
 
-const ProgramCard = styled(Card)<{ popular?: boolean }>(({ popular }) => ({
+const ProgramCard = styled(Card, {
+  shouldForwardProp: (prop) => prop !== "popular",
+})<{ popular?: boolean }>(({ popular }) => ({
   height: "100%",
   border: popular ? "2px solid #FF6B35" : "1px solid #f3f4f6",
   position: "relative",
@@ -85,7 +87,9 @@ const PopularBadge = styled(Chip)({
   height: 28,
 });
 
-const CardHeader = styled(Box)<{ bg: string }>(({ bg }) => ({
+const CardHeader = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "bg",
+})<{ bg: string }>(({ bg }) => ({
   background: bg,
   padding: "28px 24px",
   textAlign: "center",
@@ -107,7 +111,7 @@ const EnquireButton = styled(Button)(({ theme }) => ({
 
 export default function ProgramsSection({ onEnquireClick }: { onEnquireClick?: (program: string) => void }) {
   return (
-    <SectionRoot id="programs">
+    <SectionRoot id="programs" sx={{ pt: { xs: 3, md: 6 } }}>
       <Container maxWidth="lg">
         {/* Header */}
         <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: 8 }}>
