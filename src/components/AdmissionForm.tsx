@@ -12,6 +12,7 @@ import {
   Button,
   Alert,
 } from "@mui/material";
+import type { TextFieldProps } from "@mui/material";
 import { FaPaperPlane } from "react-icons/fa";
 
 const SectionRoot = styled(Box)({
@@ -21,15 +22,17 @@ const SectionRoot = styled(Box)({
 
 const FormCard = styled(Box)({
   background: "#FFF8F0",
-  borderRadius: 24,
-  padding: "40px",
+  borderRadius: 18,
+  padding: "28px",
   boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
   "@media (max-width: 600px)": {
-    padding: "24px 16px",
+    padding: "20px 14px",
   },
 });
 
-const StyledTextField = styled(TextField)({
+const StyledTextField = styled((props: TextFieldProps) => (
+  <TextField size="small" {...props} />
+))({
   "& .MuiOutlinedInput-root": {
     borderRadius: 12,
     background: "#fff",
@@ -109,7 +112,7 @@ export default function AdmissionForm() {
   };
 
   return (
-    <SectionRoot id="admission">
+    <SectionRoot id="admission" sx={{ pt: { xs: 2, md: 6 }, pb: "50px" }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: 8 }}>
           <Chip
@@ -159,7 +162,7 @@ export default function AdmissionForm() {
             </SuccessCard>
           ) : (
             <FormCard as="form" onSubmit={handleSubmit}>
-              <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2.5 }}>
+              <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
                 <StyledTextField
                   label="Child's Full Name"
                   name="childName"
@@ -211,9 +214,10 @@ export default function AdmissionForm() {
                   fullWidth
                   select
                 >
-                  <MenuItem value="Play Group (1.5 - 2.5 years)">Play Group (1.5 - 2.5 years)</MenuItem>
-                  <MenuItem value="Nursery (2.5 - 3.5 years)">Nursery (2.5 - 3.5 years)</MenuItem>
-                  <MenuItem value="Pre-KG (3.5 - 4.5 years)">Pre-KG (3.5 - 4.5 years)</MenuItem>
+                  <MenuItem value="Kindergarten (2 - 3 years)">Kindergarten (2 - 3 years)</MenuItem>
+                  <MenuItem value="Nursery (3 - 4 years)">Nursery (3 - 4 years)</MenuItem>
+                  <MenuItem value="LKG (4 - 5 years)">LKG (4 - 5 years)</MenuItem>
+                  <MenuItem value="UKG (5 - 6 years)">UKG (5 - 6 years)</MenuItem>
                 </StyledTextField>
                 <Box sx={{ gridColumn: { sm: "span 2" } }}>
                   <StyledTextField
@@ -223,7 +227,7 @@ export default function AdmissionForm() {
                     onChange={handleChange}
                     fullWidth
                     multiline
-                    rows={3}
+                    rows={2}
                   />
                 </Box>
               </Box>

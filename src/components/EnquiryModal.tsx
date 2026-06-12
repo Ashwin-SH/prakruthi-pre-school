@@ -216,9 +216,10 @@ export default function EnquiryModal({ open, onClose, preselectedProgram }: Enqu
                 select
                 size="small"
               >
-                <MenuItem value="Play Group (1.5 - 2.5 years)">Play Group (1.5 - 2.5 years)</MenuItem>
-                <MenuItem value="Nursery (2.5 - 3.5 years)">Nursery (2.5 - 3.5 years)</MenuItem>
-                <MenuItem value="Pre-KG (3.5 - 4.5 years)">Pre-KG (3.5 - 4.5 years)</MenuItem>
+                <MenuItem value="Kindergarten (2 - 3 years)">Kindergarten (2 - 3 years)</MenuItem>
+                <MenuItem value="Nursery (3 - 4 years)">Nursery (3 - 4 years)</MenuItem>
+                <MenuItem value="LKG (4 - 5 years)">LKG (4 - 5 years)</MenuItem>
+                <MenuItem value="UKG (5 - 6 years)">UKG (5 - 6 years)</MenuItem>
               </StyledTextField>
             </Box>
             <StyledTextField

@@ -277,9 +277,10 @@ export default function TeacherPortal() {
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-white appearance-none"
                 >
                   <option value="">Select Program</option>
-                  <option value="Play Group (1.5 - 2.5 years)">Play Group (1.5 - 2.5 years)</option>
-                  <option value="Nursery (2.5 - 3.5 years)">Nursery (2.5 - 3.5 years)</option>
-                  <option value="Pre-KG (3.5 - 4.5 years)">Pre-KG (3.5 - 4.5 years)</option>
+                  <option value="Kindergarten (2 - 3 years)">Kindergarten (2 - 3 years)</option>
+                  <option value="Nursery (3 - 4 years)">Nursery (3 - 4 years)</option>
+                  <option value="LKG (4 - 5 years)">LKG (4 - 5 years)</option>
+                  <option value="UKG (5 - 6 years)">UKG (5 - 6 years)</option>
                 </select>
               </div>
             </div>

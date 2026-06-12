@@ -117,7 +117,7 @@ const contactItems = [
 
 export default function ContactSection() {
   return (
-    <SectionRoot id="contact">
+    <SectionRoot id="contact" sx={{ pt: "50px" }}>
       <Container maxWidth="lg">
         {/* Header */}
         <Box sx={{ textAlign: "center", maxWidth: 700, mx: "auto", mb: 8 }}>
@@ -157,7 +157,7 @@ export default function ContactSection() {
                   <IconBox bgcolor={item.bgcolor} iconcolor={item.iconcolor}>
                     {item.icon}
                   </IconBox>
-                  <Box>
+                  <Box sx={{ minWidth: 0 }}>
                     <Typography variant="h6" sx={{ fontSize: "1.1rem", mb: 0.3 }}>
                       {item.title}
                     </Typography>
@@ -176,13 +176,14 @@ export default function ContactSection() {
                           color: item.iconcolor,
                           fontWeight: 600,
                           textDecoration: "none",
+                          overflowWrap: "anywhere",
                           "&:hover": { textDecoration: "underline" },
                         }}
                       >
                         {item.linkText}
                       </Typography>
                     ) : item.linkText ? (
-                      <Typography sx={{ color: item.iconcolor, fontWeight: 600 }}>
+                      <Typography sx={{ color: item.iconcolor, fontWeight: 600, overflowWrap: "anywhere" }}>
                         {item.linkText}
                       </Typography>
                     ) : null}

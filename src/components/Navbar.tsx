@@ -25,7 +25,6 @@ const navLinks = [
   { href: "#programs", label: "Programs" },
   { href: "#admission", label: "Admission" },
   { href: "#contact", label: "Contact" },
-  { href: "/teachers", label: "Teachers" },
 ];
 
 const StyledAppBar = styled(AppBar)({
@@ -112,7 +111,7 @@ export default function Navbar({ onEnrollClick }: { onEnrollClick?: () => void }
           <Box>
             <LogoText>Prakruthi</LogoText>
             <Typography
-              sx={{ fontSize: "0.7rem", color: "text.secondary", fontWeight: 500, mt: -0.3 }}
+              sx={{ fontSize: "0.95rem", color: "text.secondary", fontWeight: 500, mt: -0.3 }}
             >
               Pre School
             </Typography>
@@ -151,7 +150,12 @@ export default function Navbar({ onEnrollClick }: { onEnrollClick?: () => void }
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 2, borderBottom: "1px solid #eee" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Box sx={{ fontSize: "1.5rem" }}>🌿</Box>
-                <LogoText sx={{ fontSize: "1.1rem" }}>Prakruthi</LogoText>
+                <Box>
+                  <LogoText sx={{ fontSize: "1.1rem", lineHeight: 1.1 }}>Prakruthi</LogoText>
+                  <Typography sx={{ fontSize: "0.8rem", color: "text.secondary", fontWeight: 500, mt: -0.3 }}>
+                    Pre School
+                  </Typography>
+                </Box>
               </Box>
               <IconButton onClick={() => setOpen(false)}>
                 <FaTimes />

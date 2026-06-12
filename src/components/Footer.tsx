@@ -111,7 +111,20 @@ export default function Footer() {
               </Box>
               <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
                 <FaMapMarkerAlt style={{ color: "#EC4899", marginTop: 4 }} />
-                <Typography>Prakruthi Pre School, Malmaddi, Dharwad, Karnataka 580007</Typography>
+                <Typography
+                  component="a"
+                  href="https://www.google.com/maps/dir/?api=1&destination=PRAKRUTHI+PRE+SCHOOL+Malmaddi+Dharwad+Karnataka+580007"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: "inherit",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                    "&:hover": { textDecoration: "underline", color: "#fff" },
+                  }}
+                >
+                  Prakruthi Pre School, Malmaddi, Dharwad, Karnataka 580007
+                </Typography>
               </Box>
             </Box>
             <Box sx={{ display: "flex", gap: 1.5, mt: 3 }}>

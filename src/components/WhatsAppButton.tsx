@@ -1,7 +1,7 @@
 "use client";
 
 import { styled } from "@mui/material/styles";
-import { Fab, Typography, Box } from "@mui/material";
+import { Fab, Box } from "@mui/material";
 import { FaWhatsapp } from "react-icons/fa";
 import { whatsappLink } from "@/lib/contact";
 
