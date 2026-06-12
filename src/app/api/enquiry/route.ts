@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     try {
       await resend.emails.send({
         from: "Prakruthi Pre School <onboarding@resend.dev>",
-        to: process.env.NOTIFICATION_EMAIL!,
+        to: process.env.NOTIFICATION_EMAIL!.split(",").map((e) => e.trim()).filter(Boolean),
         subject: `🌿 New Admission Enquiry - ${childName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
