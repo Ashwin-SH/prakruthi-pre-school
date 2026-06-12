@@ -3,39 +3,13 @@
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, Button, Container, Chip } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { FaWhatsapp, FaArrowDown } from "react-icons/fa";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/pagination";
 
-const heroSlides = [
-  {
-    image: "/images/school-group.jpg",
-    title: "Our Prakruthi Family",
-    subtitle: "A loving community of students, teachers & parents",
-  },
-  {
-    image: "/images/campus-front.jpg",
-    title: "Our Beautiful Campus",
-    subtitle: "Safe, green, and inspiring learning spaces",
-  },
-  {
-    image: "/images/classroom.jpg",
-    title: "Engaging Classrooms",
-    subtitle: "Where curiosity meets creative learning",
-  },
-  {
-    image: "/images/bus-trip.jpg",
-    title: "Fun Field Trips",
-    subtitle: "Learning beyond the classroom walls",
-  },
-  {
-    image: "/images/rain-day.jpg",
-    title: "Theme-Based Activities",
-    subtitle: "Making every day a celebration of learning",
-  },
+const collagePhotos = [
+  { image: "/images/school-collage.jpg", alt: "Life at Prakruthi Pre School", featured: true },
+  { image: "/images/classroom.jpg", alt: "Engaging classrooms" },
+  { image: "/images/art-craft.jpg", alt: "Art & craft activities" },
+  { image: "/images/gardening.jpg", alt: "Nature & gardening" },
 ];
 
 const HeroRoot = styled(Box)({
@@ -74,24 +48,18 @@ const StatBox = styled(Box)({
   textAlign: "center",
 });
 
-const ImageSlide = styled(Box)({
+const CollageTile = styled(Box)({
   position: "relative",
-  borderRadius: 24,
+  borderRadius: 20,
   overflow: "hidden",
-  height: 420,
+  boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
   "& img": {
     objectFit: "cover",
+    transition: "transform 0.5s ease",
   },
-});
-
-const SlideOverlay = styled(Box)({
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  right: 0,
-  background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
-  padding: "40px 24px 24px",
-  color: "#fff",
+  "&:hover img": {
+    transform: "scale(1.08)",
+  },
 });
 
 const WhatsAppBtn = styled(Button)({
@@ -216,38 +184,35 @@ export default function HeroSection({ onEnquireClick }: { onEnquireClick?: () =>
             </Box>
           </Box>
 
-          {/* Photo Carousel */}
-          <Box sx={{ display: { xs: "none", lg: "block" } }}>
-            <Swiper
-              modules={[Autoplay, EffectFade, Pagination]}
-              effect="fade"
-              autoplay={{ delay: 4000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              loop
-              style={{ borderRadius: 24, overflow: "hidden" }}
-            >
-              {heroSlides.map((slide, i) => (
-                <SwiperSlide key={i}>
-                  <ImageSlide>
-                    <Image
-                      src={slide.image}
-                      alt={slide.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      priority={i === 0}
-                    />
-                    <SlideOverlay>
-                      <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
-                        {slide.title}
-                      </Typography>
-                      <Typography sx={{ opacity: 0.85 }}>
-                        {slide.subtitle}
-                      </Typography>
-                    </SlideOverlay>
-                  </ImageSlide>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+          {/* Photo Collage */}
+          <Box
+            sx={{
+              display: { xs: "none", lg: "grid" },
+              gridTemplateColumns: "1.25fr 1fr",
+              gridTemplateRows: "repeat(3, 150px)",
+              gap: 2,
+            }}
+          >
+            {collagePhotos.map((photo, i) => (
+              <CollageTile
+                key={photo.image}
+                sx={
+                  photo.featured
+                    ? { gridColumn: "1", gridRow: "1 / span 2" }
+                    : i === 3
+                    ? { gridColumn: "1 / span 2", gridRow: "3" }
+                    : { gridColumn: "2" }
+                }
+              >
+                <Image
+                  src={photo.image}
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority={photo.featured}
+                />
+              </CollageTile>
+            ))}
           </Box>
 
           {/* Mobile Hero Image */}
@@ -262,8 +227,8 @@ export default function HeroSection({ onEnquireClick }: { onEnquireClick?: () =>
             }}
           >
             <Image
-              src="/images/campus-front.jpg"
-              alt="Prakruthi Pre School Campus"
+              src="/images/school-collage.jpg"
+              alt="Life at Prakruthi Pre School"
               fill
               sizes="100vw"
               style={{ objectFit: "cover" }}
